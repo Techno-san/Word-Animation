@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!--unused link for image-->
+  <link rel='icon' type='image/png' sizes='16x16'
+    href='https://raw.githubusercontent.com/Techno-san/Wishing-Card/main/Image/icon.png'>
+
+  <title>Wording-Animation</title>
+  <style>
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background-color: #f6f6f6;
+      color: #000;
+    }
+
+    .typewrite>.wrap {
+      color: #000;
+      font-family: 'Swanky and Moo Moo', cursive;
+    }
+
+    * {
+      color: #000;
+      text-decoration: none;
+    }
+  </style>
+</head>
+
+<body>
+  <center>
+    <audio hidden autoplay src="https://audio.jukehost.co.uk/umH5xntFM6LveKmTb33gaJ9NqcsxJTVh">
+    </audio>
+  </center>
+  <!-- 
+hardships, breakups, whatever it may be, are all part of life. people come and go but those who stay are the ones worth saying 'i love you' to. dont take anyone for granted, live life to the fullest. 
+
+to the one who broke my heart. i still love you.
+-->
+
+  <h1>
+    <a class="typewrite" data-type='[ "Never leave me", 
+                "so hard to find", 
+                "Yeah", 
+                "Happy Anniversery 💖!",
+                "Mummy and Papa.", 
+                " Thank you for watching",
+                "END"
+                ]'>
+    </a>
+  </h1>
+  <!-- href property can be used in this anchor tag 
+  "Never leave me", 
+  "so hard to find", 
+  "Yeah", "My heart a sterio" ," Thank you for watching","END" -->
+</body>
+<script>
+  var TxtType = function (el, toRotate, period) {
+    this.toRotate = toRotate;
+    this.el = el;
+    this.loopNum = 0;
+    this.period = parseInt(period, 10) || 2000;
+    this.txt = '';
+    this.tick();
+    this.isDeleting = false;
+  };
+
+  TxtType.prototype.tick = function () {
+    var i = this.loopNum % this.toRotate.length;
+    var fullTxt = this.toRotate[i];
+
+    if (this.isDeleting) {
+      this.txt = fullTxt.substring(0, this.txt.length - 1);
+    } else {
+      this.txt = fullTxt.substring(0, this.txt.length + 1);
+    }
+
+    this.el.innerHTML = '<span class="wrap">' + this.txt + '</span>';
+
+    var that = this;
+    var delta = 200 - Math.random() * 100;
+
+    if (this.isDeleting) { delta /= 2; }
+
+    if (!this.isDeleting && this.txt === fullTxt) {
+      delta = this.period;
+      this.isDeleting = true;
+    } else if (this.isDeleting && this.txt === '') {
+      this.isDeleting = false;
+      this.loopNum++;
+      delta = 500;
+    }
+
+    setTimeout(function () {
+      that.tick();
+    }, delta);
+  };
+
+  window.onload = function () {
+    var elements = document.getElementsByClassName('typewrite');
+    for (var i = 0; i < elements.length; i++) {
+      var toRotate = elements[i].getAttribute('data-type');
+      var period = elements[i].getAttribute('data-period');
+      if (toRotate) {
+        new TxtType(elements[i], JSON.parse(toRotate), period);
+      }
+    }
+    // INJECT CSS
+    var css = document.createElement("style");
+    css.type = "text/css";
+    document.body.appendChild(css);
+  };
+</script>
+
+</html>
